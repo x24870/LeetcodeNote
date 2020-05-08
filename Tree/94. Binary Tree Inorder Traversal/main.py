@@ -61,3 +61,31 @@ class IterativeSolution(object):
 
 i = IterativeSolution()
 print(i.inorderTraversal(root))
+
+
+class MorrisTraversalSolution(object):
+    def inorderTraversal(self, root):
+        traversalList = []
+
+        while root:
+            if root.left:
+                subtreeRoot = root.left
+                # find most right node of left sub-tree
+                mostRightNode = self.findMostRightNode(subtreeRoot)
+                # append root to that node
+                mostRightNode.right = root
+                root.left = None
+                root = subtreeRoot
+            else:
+                traversalList.append(root.val)
+                root = root.right
+                
+        return traversalList
+
+    def findMostRightNode(self, root):
+        while root.right:
+            root = root.right
+        return root
+
+m = MorrisTraversalSolution()
+print(m.inorderTraversal(root))
