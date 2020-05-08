@@ -41,3 +41,35 @@ class RecursiveSolution(object):
 
 r = RecursiveSolution()
 print(r.postorderTraversal(root))
+
+class RecursiveSolution2(object):
+    # devide and conquer
+    def postorderTraversal(self, root):
+        if not root: return []
+        leftList = self.postorderTraversal(root.left)
+        rightList = self.postorderTraversal(root.right)
+        leftList.extend(rightList)
+        leftList.append(root.val)
+        return leftList
+
+r2 = RecursiveSolution2()
+print(r2.postorderTraversal(root))
+
+class IterativeSolution(object):
+    def postorderTraversal(self, root):
+        if not root: return
+        traversalList = []
+        stack = []
+        stack.append(root)
+
+        while stack:
+            curNode = stack.pop()
+            traversalList.insert(0, curNode.val)
+            if curNode.left: stack.append(curNode.left)
+            if curNode.right: stack.append(curNode.right)
+
+        return traversalList
+
+
+i = IterativeSolution()
+print(i.postorderTraversal(root))
