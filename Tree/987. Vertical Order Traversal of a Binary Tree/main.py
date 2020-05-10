@@ -1,11 +1,19 @@
 import collections
 
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+root = TreeNode(3)
+root.left = TreeNode(9)
+root.right = TreeNode(10)
+root.left.right = TreeNode(99)
+root.right.left = TreeNode(15)
+root.right.right = TreeNode(7)
+
 
 class Solution:
     '''
@@ -40,3 +48,25 @@ class Solution:
             ans.append(vertical_group)
         
         return ans
+
+        
+        
+class BfsSolution:
+    def verticalTraversal(self, root: 'TreeNode') -> 'List[List[int]]':
+        ans = collections.defaultdict(list)
+        q = [(root, 0)] if root else []
+        level = 0
+        while q:
+            nxt_q = []
+            for node, ofs in q:
+                ans[ofs].append((level, node.val))
+                if node.left: nxt_q.append((node.left, ofs-1))
+                if node.right: nxt_q.append((node.right, ofs+1))
+            q = nxt_q
+            level += 1
+
+        res = [sorted(ans[k]) for k in sorted(ans.keys())] 
+        return [[val for _, val in r] for r in res]
+
+b = BfsSolution()
+b.verticalTraversal(root)
