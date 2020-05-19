@@ -8,30 +8,19 @@
 # First try
 class Solution:
     def isSubtree(self, s, t):
-        self.s = s
-        self.t = t
-        self.found_match = False
-
-        self.dfs(s)
-
-        return self.found_match
+        return self.dfs(s, t)
 
     def match_tree(self, s_node, t_node):
         if not s_node and not t_node: return True
-        if s_node and not t_node: return False
-        if t_node and not s_node: return False
+        if not s_node or not t_node: return False
         if s_node.val != t_node.val: return False
 
         return self.match_tree(s_node.left, t_node.left) and self.match_tree(s_node.right, t_node.right)
         
+    def dfs(self, s, t):
+        if not s: return False
+        return self.match_tree(s, t) or self.dfs(s.left, t) or self.dfs(s.right, t)
 
-    def dfs(self, node):
-        if self.found_match: return
-        if not node: return
-        if node.val == self.t.val:
-            self.found_match =  self.match_tree(node, self.t)
-        self.dfs(node.left)
-        self.dfs(node.right)
 
 ## Preorder Traversal String
 # Output a string of preorder traversal result
