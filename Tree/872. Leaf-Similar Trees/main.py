@@ -22,3 +22,11 @@ class Solution:
 
         return root1_leave_vals == root2_leave_vals
 
+# This solution more clear
+class Solution:
+    def leafSimilar(self, root1: TreeNode, root2: TreeNode) -> bool:
+        def get_leaf_vals(node):
+            if not node: return []
+            if not node.left and not node.right: return [node.val]
+            return get_leaf_vals(node.left) + get_leaf_vals(node.right)
+        return get_leaf_vals(root1) == get_leaf_vals(root2)
