@@ -61,7 +61,7 @@ class TreeGenerator:
 
     @classmethod
     def get_filled_tree(cls, root, height):
-        if height < 1: return
+        if height <= 1: return
         if not root.left: root.left = TreeNode(None)
         if not root.right: root.right = TreeNode(None)
         cls.get_filled_tree(root.left, height-1)
@@ -174,10 +174,10 @@ class TreeGenerator:
 
                     # print node with/without dashes
                     if first_item_in_layer:
-                        print( ("*" * spaces_front) + (dash_left * dash_count) + str(node.val) + (dash_right * dash_count),  end='' )
+                        print( ("*" * spaces_front) + (dash_left * int(dash_count)) + str(node.val) + (dash_right * int(dash_count)),  end='' )
                         first_item_in_layer = False
                     else:
-                        print( "+" * (spaces_mid-extra_spaces+1) + (dash_left * dash_count) + str(node.val) + (dash_right * dash_count), end='' )
+                        print( "+" * (spaces_mid-extra_spaces+1) + (dash_left * int(dash_count)) + str(node.val) + (dash_right * int(dash_count)), end='' )
 
 
                     #if node.left: queue.enqueue(node.left)
@@ -261,10 +261,7 @@ class TreeGenerator:
 # root = TreeGenerator.get_bin_tree(a)
 # TreeGenerator.print_tree(root)
 
-b = [1, None, 2, None, 3, None, 4]
+b = [1, None, 3, None, 4]
 root = TreeGenerator.get_bin_tree(b)
-print(root.val)
-print(root.right.val)
-print(root.right.right.val)
-print(root.right.right.right.val)
+# root.right = TreeNode(10)
 TreeGenerator.print_tree(root)
