@@ -69,6 +69,7 @@ class TreeGenerator:
 
     @classmethod
     def print_tree(cls, root):
+        NULL_NODE = " "
         # this function was modified form:
         # https://github.com/jdmcpeek/pretty-print-binary-tree/blob/c153183b28c73f0029131d68bb7d59757b0c5c63/tree.py#L62
 
@@ -83,7 +84,6 @@ class TreeGenerator:
         # start a queue for BFS
         queue = []
         # add root to queue
-        # queue.insert(0, root)
         queue.insert(0, tree)
 
         # index for 'generation' or 'layer' of tree
@@ -117,124 +117,68 @@ class TreeGenerator:
                 if first_item_in_layer:
                     edges_string += " " * init_padding
 
-                if node != 'NONE':
-                    # construct edges layer
-                    #edge_sym = "/" if node.left and node.left.val is not " " else " "
-                    edge_sym = "/" if node.left else " "
-                    if first_item_in_layer:
-                        edges_string += " " * int(pow(2, total_layers - gen) - 1) + edge_sym
-                    else:
-                        edges_string += " " * int(pow(2, total_layers - gen + 1) + 1) + edge_sym
-
-                    # edge_sym = "\\" if node.right and node.right.val is not " " else " "
-                    edge_sym = "\\" if node.right else " "
-                    edges_string += " " * (pow(2, total_layers - gen + 1) - 3) + edge_sym
-
-                    # conditions for dashes
-                    # if node.left and node.left.val == " ":
-                    if node.left:
-                        dash_left = "_"
-                    else:
-                        dash_left = "_"
-
-                    # if node.right and node.right.val == " ":
-                    if node.right:
-                        dash_right = "_"#" "
-                    else:
-                        dash_right = "_"
-
-                    # handle condition for extra spaces when node lengths don't match or are even:
-                    if extra_spaces_next_node:
-                        extra_spaces = 1
-                        extra_spaces_next_node = False
-                    else:
-                        extra_spaces = 0
-
-                    # account for longer data
-                    data_length = len(str(node.val))
-                    if data_length > 1:
-                        if data_length % 2 == 1: # odd
-                            if dash_count > 0:
-                                dash_count -= ((data_length - 1)/2)
-                            else:
-                                spaces_mid -= (data_length - 1)/2
-                                spaces_front -= (data_length - 1)/2
-                                if data_length is not 1: 
-                                    extra_spaces_next_node = True 
-                        else: # even
-                            if dash_count > 0:
-                                dash_count -= ((data_length)/2) - 1
-                                extra_spaces_next_node = True
-                                # dash_count += 1
-                            else:
-                                spaces_mid -= (data_length - 1)
-                                spaces_front -= (data_length - 1)
-
-                
-
-                    # print node with/without dashes
-                    if first_item_in_layer:
-                        print( ("*" * spaces_front) + (dash_left * int(dash_count)) + str(node.val) + (dash_right * int(dash_count)),  end='' )
-                        first_item_in_layer = False
-                    else:
-                        print( "+" * (spaces_mid-extra_spaces+1) + (dash_left * int(dash_count)) + str(node.val) + (dash_right * int(dash_count)), end='' )
-
-
-                    #if node.left: queue.enqueue(node.left)
-                    if node.left:
-                        queue.insert(0, node.left)
-                    else:
-                        queue.insert(0, 'NONE')
-                    #if node.right: queue.enqueue(node.right)
-                    if node.right:
-                        queue.insert(0, node.right)
-                    else:
-                        queue.insert(0, 'NONE')
+                # construct edges layer
+                edge_sym = "/" if node.left and node.left.val != None else " "
+                if first_item_in_layer:
+                    edges_string += " " * int(pow(2, total_layers - gen) - 1) + edge_sym
                 else:
-                    edge_sym = " "
-                    if first_item_in_layer:
-                        edges_string += " " * int(pow(2, total_layers - gen) - 1) + edge_sym
-                    else:
-                        edges_string += " " * int(pow(2, total_layers - gen + 1) + 1) + edge_sym
+                    edges_string += " " * int(pow(2, total_layers - gen + 1) + 1) + edge_sym
 
-                    edge_sym = " "
-                    edges_string += " " * (pow(2, total_layers - gen + 1) - 3) + edge_sym
+                edge_sym = "\\" if node.right and node.right.val != None else " "
+                edges_string += " " * (pow(2, total_layers - gen + 1) - 3) + edge_sym
 
+                # conditions for dashes
+                if node.left and node.left.val == None:
+                    dash_left = " "
+                else:
                     dash_left = "_"
+
+                if node.right and node.right.val==None:
+                    dash_right = " "
+                else:
                     dash_right = "_"
 
-                    # handle condition for extra spaces when node lengths don't match or are even:
-                    if extra_spaces_next_node:
-                        extra_spaces = 1
-                        extra_spaces_next_node = False
-                    else:
-                        extra_spaces = 0
+                # handle condition for extra spaces when node lengths don't match or are even:
+                if extra_spaces_next_node:
+                    extra_spaces = 1
+                    extra_spaces_next_node = False
+                else:
+                    extra_spaces = 0
 
-                    # account for longer data
-                    data_length = len(" ")
-                    if data_length > 1:
-                        if data_length % 2 == 1: # odd
-                            if dash_count > 0:
-                                dash_count -= ((data_length - 1)/2)
-                            else:
-                                spaces_mid -= (data_length - 1)/2
-                                spaces_front -= (data_length - 1)/2
-                                if data_length is not 1: 
-                                    extra_spaces_next_node = True 
-                        else: # even
-                            if dash_count > 0:
-                                dash_count -= ((data_length)/2) - 1
-                                extra_spaces_next_node = True
-                                # dash_count += 1
-                            else:
-                                spaces_mid -= (data_length - 1)
-                                spaces_front -= (data_length - 1)
-                    # print node with/without dashes
-                    if first_item_in_layer:
-                        print( ("A" * spaces_front) + (dash_left * dash_count) + " " + (dash_right * dash_count),  end='' )
-                        first_item_in_layer = False
-                    else:
-                        print( "B" * (spaces_mid-extra_spaces+1) + (dash_left * dash_count) + " " + (dash_right * dash_count), end='' )
+                # account for longer data
+                data_length = len(str(node.val)) if node.val != None else len(NULL_NODE)
+                if data_length > 1:
+                    if data_length % 2 == 1: # odd
+                        if dash_count > 0:
+                            dash_count -= ((data_length - 1)/2)
+                        else:
+                            spaces_mid -= (data_length - 1)/2
+                            spaces_front -= (data_length - 1)/2
+                            if data_length is not 1: 
+                                extra_spaces_next_node = True 
+                    else: # even
+                        if dash_count > 0:
+                            dash_count -= ((data_length)/2) - 1
+                            extra_spaces_next_node = True
+                            # dash_count += 1
+                        else:
+                            spaces_mid -= (data_length - 1)
+                            spaces_front -= (data_length - 1)
+
+                # print node with/without dashes
+                if first_item_in_layer:
+                    val_str = str(node.val) if node.val != None else NULL_NODE
+                    print( (" " * spaces_front) + (dash_left * int(dash_count)) + val_str + (dash_right * int(dash_count)),  end='' )
+                    first_item_in_layer = False
+                else:
+                    val_str = str(node.val) if node.val != None else NULL_NODE
+                    print( " " * (spaces_mid-extra_spaces+1) + (dash_left * int(dash_count)) + val_str + (dash_right * int(dash_count)), end='' )
+
+
+                if node.left:
+                    queue.insert(0, node.left)
+                if node.right:
+                    queue.insert(0, node.right)
 
 
             # print the fun squiggly lines
@@ -248,20 +192,23 @@ class TreeGenerator:
 
 
 
-# a = [1, 2, 3]
-# print(a)
-# root = TreeGenerator.get_bin_tree(a)
-# TreeGenerator.print_tree(root)
+a = [1, 2, 3]
+print(a)
+root = TreeGenerator.get_bin_tree(a)
+TreeGenerator.print_tree(root)
 
 
-# a.append(2)
-# a.append(None)
-# a.append(None)
-# a.append(1)
-# root = TreeGenerator.get_bin_tree(a)
-# TreeGenerator.print_tree(root)
+a.append(2)
+a.append(None)
+a.append(None)
+a.append(1)
+root = TreeGenerator.get_bin_tree(a)
+TreeGenerator.print_tree(root)
 
-b = [1, None, 3, None, 4]
+b = [1, 2, 3, None, 4, None, 5]
 root = TreeGenerator.get_bin_tree(b)
-# root.right = TreeNode(10)
+TreeGenerator.print_tree(root)
+
+c = [2, None, 4, None, 6, None, 8, None, 10]
+root = TreeGenerator.get_bin_tree(c)
 TreeGenerator.print_tree(root)
