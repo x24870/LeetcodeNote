@@ -53,7 +53,8 @@ class TreeGenerator:
                 print('Out of index, please check your list')
                     
         return cls.remove_node_with_val_None(root)
-                
+
+class TreeHelper:
     @classmethod
     def get_height(cls, root):
         if not root: return 0
@@ -191,24 +192,24 @@ class TreeGenerator:
         print('\n')
 
 
+if __name__ == '__main__':
+    a = [1, 2, 3]
+    print(a)
+    root = TreeGenerator.get_bin_tree(a)
+    TreeHelper.print_tree(root)
 
-a = [1, 2, 3]
-print(a)
-root = TreeGenerator.get_bin_tree(a)
-TreeGenerator.print_tree(root)
 
+    a.append(2)
+    a.append(None)
+    a.append(None)
+    a.append(1)
+    root = TreeGenerator.get_bin_tree(a)
+    TreeHelper.print_tree(root)
 
-a.append(2)
-a.append(None)
-a.append(None)
-a.append(1)
-root = TreeGenerator.get_bin_tree(a)
-TreeGenerator.print_tree(root)
+    b = [1, 2, 3, None, 4, None, 5]
+    root = TreeGenerator.get_bin_tree(b)
+    TreeHelper.print_tree(root)
 
-b = [1, 2, 3, None, 4, None, 5]
-root = TreeGenerator.get_bin_tree(b)
-TreeGenerator.print_tree(root)
-
-c = [2, None, 4, None, 6, None, 8, None, 10]
-root = TreeGenerator.get_bin_tree(c)
-TreeGenerator.print_tree(root)
+    c = [2, None, 4, None, 6, None, 8, None, 10]
+    root = TreeGenerator.get_bin_tree(c)
+    TreeHelper.print_tree(root)
