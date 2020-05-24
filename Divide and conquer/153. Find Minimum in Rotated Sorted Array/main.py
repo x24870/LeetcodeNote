@@ -3,7 +3,7 @@ class Solution:
     def findMin(self, nums):
         return min(nums)
         
-
+# peek
 class Solution:
     def findMin(self, nums):
         lo = 0
