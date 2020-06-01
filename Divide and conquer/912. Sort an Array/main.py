@@ -74,5 +74,37 @@ class Solution:
 # Heap sort
 
 # Merge sort
+class Solutions:
+    # according to description, maximun value is 50000
+    def sortArray(self, nums):
+        INF = 50001
+        def merge(l_lo, l_hi, r_lo, r_hi):
+            l_idx = 0
+            r_idx = 0
+            l_arr = nums[l_lo:l_hi+1]
+            l_arr.append(INF)
+            r_arr = nums[r_lo:r_hi+1]
+            l_arr.append(INF)
+            for i in range(l_lo, r_hi):
+                if l_arr[l_idx] < r_arr[r_idx]:
+                    nums[i] = l_arr[l_idx]
+                    l_idx += 1
+                else:
+                    nums[i] = r_arr[r_idx]
+                    r_idx += 1
 
+        def merge_sort(lo, hi):
+            if lo >= hi:
+                return
+            mid = (hi - lo)//2 + lo
+            merge_sort(lo, mid)
+            merge_sort(mid+1, hi)
+            merge(lo, mid, mid+1, hi)
+
+        merge_sort(0, len(nums)-1)
+        return nums
+
+s = Solutions()
+a = s.sortArray([5,2,3,1])
+print(a)
 # Shell sort
