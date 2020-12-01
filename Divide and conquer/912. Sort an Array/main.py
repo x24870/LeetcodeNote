@@ -39,6 +39,8 @@ class Solution:
                 pos -= 1
         return nums
 
+# Shell sort
+
 # Quick sort
 # peek **MUST REVIEW**
 class Solution:
@@ -69,9 +71,30 @@ class Solution:
             quick_sort(left+1, hi)
 
         quick_sort(0, len(nums)-1)
-        return nums 
+        return nums
 
-# Heap sort
+# my quick sort
+class Solution:
+    def sortArray(self, nums):
+        def quick_sort(lo, hi):
+            if lo >= hi: return
+
+            left = lo
+            right = hi
+            pivot =  nums[lo]
+            while right > left:
+                while nums[right] > pivot and right > left: right -= 1
+                while nums[left] <= pivot and right > left: left += 1
+                if right != left:
+                    nums[left], nums[right] = nums[right], nums[left]
+            
+            nums[lo], nums[left] = nums[left], nums[lo]
+
+            quick_sort(lo, left-1)
+            quick_sort(left+1, hi)
+
+        quick_sort(0, len(nums)-1)
+        return nums
 
 # Merge sort
 # First try
@@ -105,4 +128,4 @@ class Solution:
         merge_sort(0, len(nums)-1)
         return nums
 
-# Shell sort
+# Heap sort
