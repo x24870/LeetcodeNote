@@ -40,6 +40,25 @@ class Solution:
         return nums
 
 # Shell sort
+# Ref: https://rust-algo.club/sorting/shellsort/index.html
+#      http://notepad.yehyeh.net/Content/Algorithm/Sort/Shell/Shell.php
+class Solution:
+    def sortArray(self, nums):
+        MARCIN_GAPS = [701, 301, 132, 57, 23, 10, 4, 1]
+        length = len(nums)
+        for g in range(len(MARCIN_GAPS)):
+            gap = MARCIN_GAPS[g]
+            # insertion sort with gap
+            for i in range(0, length, gap):
+                print(f'i: {i}')
+                for j in range(i, 0, -1):
+                    cur_idx = j*gap
+                    if cur_idx >= length: break
+                    pre_idx = (j-1)*gap
+                    print(f'cur: {cur_idx}      pre: {pre_idx}')
+                    if nums[cur_idx] < nums[pre_idx]:
+                        nums[cur_idx], nums[pre_idx] = nums[pre_idx], nums[cur_idx]
+        return nums
 
 # Quick sort
 # peek **MUST REVIEW**
