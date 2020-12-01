@@ -6,10 +6,10 @@ class Solution:
 # Will exceed the time limit
 class Solution:
     def sortArray(self, nums):
-        length = length(nums)
+        length = len(nums)
         for i in range(length):
-            for j in range(length - i - 1):
-                if nums[j] > num[j+1]:
+            for j in range(length-i-1):
+                if nums[j] > nums[j+1]:
                     nums[j], nums[j+1] = nums[j+1], nums[j]
         return nums
 
@@ -18,25 +18,25 @@ class Solution:
 class Solution:
     def sortArray(self, nums):
         length = len(nums)
-        for i in range(length - 1):
+        for i in range(length):
             # find min in [i:]
             min_idx = i
-            for j in range(i+1, length):
-                if nums[min_idx] > nums[j]: min_idx = j
-            nums[i], nums[min_idx] = nums[min_idx], nums[i]
+            for j in range(i, length):
+                if nums[j] < nums[min_idx]:
+                    min_idx = j
+            nums[min_idx], nums[i] = nums[i], nums[min_idx]
         return nums
 
 # Insertion sort
 # Will exceed the time limit
 class Solution:
     def sortArray(self, nums):
-        length = len(nums)
-        for i in range(1, length):
-            position = i
+        for i in range(1, len(nums)):
+            pos = i
             # insertion
-            while position and nums[position] < nums[position-1]:
-                nums[position], nums[position-1] = nums[position-1], nums[position]
-                position -= 1
+            while pos and nums[pos] < nums[pos-1]:
+                nums[pos], nums[pos-1] = nums[pos-1], nums[pos]
+                pos -= 1
         return nums
 
 # Quick sort
@@ -69,7 +69,7 @@ class Solution:
             quick_sort(left+1, hi)
 
         quick_sort(0, len(nums)-1)
-        return nums
+        return nums 
 
 # Heap sort
 
