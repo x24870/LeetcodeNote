@@ -147,4 +147,42 @@ class Solution:
         merge_sort(0, len(nums)-1)
         return nums
 
+# merge sort with out limited max value
+class Solution:
+    def sortArray(self, nums):
+        def merge(l_lo, l_hi, r_lo, r_hi):
+            l_idx = 0
+            r_idx = 0
+            idx = l_lo
+            l_arr = nums[l_lo: l_hi+1]
+            r_arr = nums[r_lo: r_hi+1]
+            l_len = len(l_arr)
+            r_len = len(r_arr)
+            while r_idx < r_len and l_idx < l_len:
+                if l_arr[l_idx] > r_arr[r_idx]:
+                    nums[idx] = r_arr[r_idx]
+                    r_idx += 1
+                else:
+                    nums[idx] = l_arr[l_idx]
+                    l_idx += 1
+                idx += 1
+            while l_idx < l_len:
+                nums[idx] = l_arr[l_idx]
+                l_idx += 1
+                idx += 1
+            while r_idx < r_len:
+                nums[idx] = r_arr[r_idx]
+                r_idx += 1
+                idx += 1
+
+        def merge_sort(lo, hi):
+            if lo >= hi: return
+            mid = (hi-lo)//2 + lo
+            merge_sort(lo, mid)
+            merge_sort(mid+1, hi)
+            merge(lo, mid, mid+1, hi)
+
+        merge_sort(0, len(nums)-1)
+        return nums
+
 # Heap sort
