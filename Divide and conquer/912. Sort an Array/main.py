@@ -186,3 +186,29 @@ class Solution:
         return nums
 
 # Heap sort
+# peek
+class Solution:
+    def sortArray(self, nums):
+        def heapify(root, length):
+            left = root*2 + 1
+            right = root*2 + 2
+            max_idx = root
+            if left < length and nums[left] > nums[root]:
+                max_idx = left
+            if right < length and nums[right] > nums[max_idx]:
+                max_idx = right
+            if root != max_idx:
+                nums[root], nums[max_idx] = nums[max_idx], nums[root]
+                heapify(max_idx, length)
+
+        def heap_sort(nums):
+            length = len(nums)
+            for i in range(length//2-1, -1, -1):
+                heapify(i, length)
+
+            for i in range(length-1, 0, -1):
+                nums[0], nums[i] = nums[i], nums[0]
+                heapify(0 ,i)
+
+        heap_sort(nums)
+        return nums
