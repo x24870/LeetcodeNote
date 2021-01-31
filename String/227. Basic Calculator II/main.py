@@ -71,9 +71,99 @@ class Solution:
         # print(s)
         return self.cal_postfix(s)
 
-s = '3+21*2'
-# s = '0'
-# s = '1-1+1'
-sol = Solution()
+
+# refered solution: https://leetcode.com/problems/basic-calculator-ii/solution/
+# idea: Use stack.
+#       We don't need to consider parenthesses in this question
+# faster than previous solution, but this solution not consider parenthesses
+class Solution2:
+    def calculate(self, s: str) -> int:
+        stack = []
+        cur_val = 0
+        operator = '+'
+        for char in s:
+            print(char)
+            if char == ' ':
+                continue
+            elif char.isdigit():
+                cur_val = cur_val * 10 + int(char)
+            else:
+                if operator in '*/':
+                    val = stack.pop()
+                    if operator == '*':
+                        val *= cur_val
+                    else:
+                        val = int(val / cur_val)
+                    stack.append(val)
+                else:
+                    if operator == '-':
+                        cur_val *= -1
+                    stack.append(cur_val)
+
+                operator = char
+                cur_val = 0
+            print(f'{stack}, {cur_val}, {operator}')
+
+        # deal with last operator
+        val = stack.pop() if stack else 0
+        if operator == '+':
+            val += cur_val
+        elif operator == '-':
+            val -= cur_val
+        elif operator == '*':
+            val *= cur_val
+        else:
+            val /= cur_val
+            val = int(val)
+        cur_val = 0
+        stack.append(val)
+
+        # sum up all valus in stack
+        while stack:
+            cur_val += stack.pop()
+        return cur_val
+
+
+# refered solution: https://leetcode.com/problems/basic-calculator-ii/solution/
+# idea: the idea is same as previous solution but without stack
+#       Use 'last_val' and 'result' to track values
+class Solution3:
+    def calculate(self, s: str) -> int:
+        result = cur_val = last_val = 0
+        operator = '+'
+        for char in s:
+            if char == ' ':
+                continue
+            elif char.isdigit():
+                cur_val = cur_val * 10 + int(char)
+            else:
+                if operator in '+-':
+                    result += last_val
+                    if operator == '-': cur_val *= -1
+                    last_val = cur_val
+                elif operator == '*':
+                    last_val *= cur_val
+                else:
+                    last_val = int(last_val / cur_val)
+                cur_val = 0
+                operator = char
+        
+        if operator == '+':
+            last_val += cur_val
+        elif operator == '-':
+            last_val -= cur_val
+        elif operator == '*':
+            last_val *= cur_val
+        else:
+            last_val = int(last_val/cur_val)
+
+        return result + last_val
+
+# s = '3+21*2'
+#s = '0'
+# s = '1'
+s = '14-3/2'
+# s = '1*2-3/4+5*6-7*8+9/10'
+sol = Solution3()
 ans = sol.calculate(s)
 print(f'ans: {ans}')
