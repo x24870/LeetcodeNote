@@ -47,7 +47,8 @@ func howSumMemo(target int, arr []int, memo map[int][]int) []int {
 		}
 	}
 
-	return nil
+	memo[target] = nil
+	return memo[target]
 }
 
 func main() {
