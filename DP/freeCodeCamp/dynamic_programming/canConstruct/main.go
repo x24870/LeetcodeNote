@@ -26,7 +26,7 @@ func canConstruct(target string, words []string) bool {
 }
 
 // time complexity: O(n*m * m)
-// space complexity: O(n * m)
+// space complexity: O(m * m)
 func canConstructMemo(target string, words []string, memo map[string]bool) bool {
 	if m, ok := memo[target]; ok == true {
 		return m
