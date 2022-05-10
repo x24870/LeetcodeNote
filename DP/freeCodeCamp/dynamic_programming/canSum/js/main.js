@@ -43,9 +43,11 @@ const canSumTable = (target, arr) => {
     table[0] = true;
 
     for (let i=0; i<=target; i++) {
-        for (let num of arr) {
-            let sum = i + num;
-            if (sum <= target) table[sum] = true;
+        if (table[i] === true) {
+            for (let num of arr) {
+                let sum = i + num;
+                if (sum <= target) table[sum] = true;
+            }
         }
     }
 

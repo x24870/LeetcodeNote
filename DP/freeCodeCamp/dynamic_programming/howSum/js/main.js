@@ -61,11 +61,34 @@ const howSumMemo = (target, arr, memo={}) => {
     return memo[target]
 }
 
+const howSumTable = (target, arr) => {
+    let table = Array(target+1).fill(null);
+    table[0] = [];
+    
+    for (let i=0; i<=target; i++) {
+        if (table[i] !== null) {
+            for (let num of arr) {
+                let sum = i + num;
+                if (sum <= target) {
+                    table[sum] = [num, ...table[i]];
+                }
+            }
+        }
+    }
+
+    return table[target]
+}
+
 console.log(howSum(7, [5,3,4,7])) // [4, 3]
 console.log(howSum(7, [2,4])) // null
-
+console.log("---")
 
 console.log(howSum2(7, [5,3,4,7])) // [4, 3]
 console.log(howSum2(7, [2,4])) // null
+console.log("---")
 
 console.log(howSumMemo(300, [7, 14])) // null
+console.log("---")
+
+console.log(howSumTable(7, [5,3,4,7])) // [4, 3]
+console.log(howSumTable(300, [7, 14])) // null
