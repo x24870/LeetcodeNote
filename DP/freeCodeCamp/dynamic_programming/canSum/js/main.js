@@ -36,10 +36,33 @@ const canSumMemo = (target, arr, memo={}) => {
     return false
 }
 
+// time complexity: O(m*n)
+// space complexity: O(m)
+const canSumTable = (target, arr) => {
+    let table = Array(target+1).fill(false);
+    table[0] = true;
+
+    for (let i=0; i<=target; i++) {
+        for (let num of arr) {
+            let sum = i + num;
+            if (sum <= target) table[sum] = true;
+        }
+    }
+
+    return table[target];
+}
 
 console.log(canSum(7, [5,3,4,7])) // true
 console.log(canSum(7, [2, 4])) // false
 // console.log(canSum(300, [7, 14])) // too slow
+console.log("---")
+
+console.log(canSumMemo(7, [5,3,4,7])) // true
+console.log(canSumMemo(7, [2, 4])) // false
+console.log(canSumMemo(300, [7, 14])) // false
+console.log(canSumMemo(7000, [7, 14])) // true
+console.log("---")
+
 console.log(canSumMemo(7, [5,3,4,7])) // true
 console.log(canSumMemo(7, [2, 4])) // false
 console.log(canSumMemo(300, [7, 14])) // false
