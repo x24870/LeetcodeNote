@@ -57,12 +57,38 @@ func bestSumMemo(target int, arr []int, memo map[int][]int) []int {
 	return shortest
 }
 
+// time complexity: O(m * n * m)
+// space complexity: O(m * m)
+func bestSumTable(target int, arr []int) []int {
+	table := make([][]int, target+1)
+
+	table[0] = make([]int, 0)
+
+	for i := 0; i <= target; i++ {
+		if table[i] != nil {
+			for _, num := range arr {
+				sum := i + num
+				if sum <= target {
+					s := []int{num}
+					s = append(s, table[i]...)
+					if table[sum] == nil || len(table[sum]) > len(s) {
+						table[sum] = s
+					}
+				}
+			}
+		}
+	}
+
+	return table[target]
+}
+
 func main() {
 	fmt.Println(bestSum(7, []int{5, 3, 4, 7})) // [7]
 	fmt.Println(bestSum(8, []int{2, 3, 5}))    // [3, 5]
 	fmt.Println(bestSum(8, []int{1, 4, 5}))    // [4, 4]
 	fmt.Println(bestSum(7, []int{2, 4}))       // []
 	// fmt.Println(bestSum(100, []int{1, 2, 5, 25})) // [25, 25, 25, 25] slow
+	fmt.Println("---")
 
 	memo := make(map[int][]int)
 	fmt.Println(bestSumMemo(7, []int{5, 3, 4, 7}, memo)) // [7]
@@ -74,4 +100,11 @@ func main() {
 	fmt.Println(bestSumMemo(7, []int{2, 4}, memo)) // []
 	memo = make(map[int][]int)
 	fmt.Println(bestSumMemo(100, []int{1, 2, 5, 25}, memo)) // [25, 25, 25, 25]
+	fmt.Println("---")
+
+	fmt.Println(bestSumTable(7, []int{5, 3, 4, 7}))    // [7]
+	fmt.Println(bestSumTable(8, []int{2, 3, 5}))       // [3, 5]
+	fmt.Println(bestSumTable(8, []int{1, 4, 5}))       // [4, 4]
+	fmt.Println(bestSumTable(7, []int{2, 4}))          // []
+	fmt.Println(bestSumTable(100, []int{1, 2, 5, 25})) // [25, 25, 25, 25]
 }
