@@ -49,10 +49,40 @@ func canConstructMemo(target string, words []string, memo map[string]bool) bool 
 	return memo[target]
 }
 
+// time complexity: O(m * n * m)
+// space complexity: O(m)
+func canConstructTable(target string, words []string) bool {
+	table := make([]bool, len(target)+1)
+
+	// considering target = "abcdef", if the index contains true which means
+	// there is a way to construct the sub-string before current charactor
+	// so the first value of the table always be true.
+	// which means there is always a way to construct an empty string.
+	//  0 1 2 3 4 5 6
+	// |T|F|F|F|F|F|F|
+	//  a b c d e f
+	table[0] = true
+
+	for idx, v := range table {
+		if v == true {
+			for _, w := range words {
+				start := idx
+				end := idx + len(w)
+				if end <= len(target) && w == target[start:end] {
+					table[end] = true
+				}
+			}
+		}
+	}
+
+	return table[len(target)]
+}
+
 func main() {
 	fmt.Println(canConstruct("abcdef", []string{"ab", "abc", "cd", "def", "abcd"}))                  // true
 	fmt.Println(canConstruct("skateboard", []string{"bo", "rd", "ate", "t", "ska", "sk", "boar"}))   //false
 	fmt.Println(canConstruct("enterapotentpot", []string{"a", "p", "ent", "enter", "ot", "o", "t"})) // true
+	fmt.Println("---")
 
 	memo := make(map[string]bool)
 	fmt.Println(canConstructMemo("abcdef", []string{"ab", "abc", "cd", "def", "abcd"}, memo))                  // true
@@ -66,4 +96,17 @@ func main() {
 		"eeeee",
 		"eeeeee",
 	}, memo)) // false
+	fmt.Println("---")
+
+	fmt.Println(canConstructTable("abcdef", []string{"ab", "abc", "cd", "def", "abcd"}))                  // true
+	fmt.Println(canConstructTable("skateboard", []string{"bo", "rd", "ate", "t", "ska", "sk", "boar"}))   //false
+	fmt.Println(canConstructTable("enterapotentpot", []string{"a", "p", "ent", "enter", "ot", "o", "t"})) // true
+	fmt.Println(canConstructTable("eeeeeeeeeeeeeeeeeeeeeeeeeeef", []string{
+		"e",
+		"ee",
+		"eee",
+		"eeee",
+		"eeeee",
+		"eeeeee",
+	})) // false
 }
