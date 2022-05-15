@@ -36,9 +36,33 @@ const allConstructMemo = (target, words, memo={}) => {
     return total;
 }
 
+const allConstructTable = (target, words) => {
+    let table = Array(target.length + 1)
+    .fill()
+    .map(() => []);
+
+    table[0] = [[]];
+
+    for (let i=0; i<table.length; i++) {
+        for (let w of words) {
+            let start = i;
+            let end = i + w.length;
+            if (end < table.length && target.slice(start, end) === w) {
+                for (let way of table[start]) {
+                    let newWay = [...way, w];
+                    table[end].push(newWay);
+                }
+            }
+        }
+    }
+
+    return table[target.length];
+}
+
 console.log(allConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd"]))
 console.log(allConstruct("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"]))
 console.log(allConstruct("enterapotentpot", ["a", "p", "ent", "enter", "ot", "o", "t"]))
+console.log("---")
 
 console.log(allConstructMemo("eeeeeeeeeeeeeeeeeeeeeeeeeez", 
 [
@@ -49,3 +73,8 @@ console.log(allConstructMemo("eeeeeeeeeeeeeeeeeeeeeeeeeez",
     "eeeee",
     "eeeeee"
 ]))
+console.log("---")
+
+console.log(allConstructTable("purple", ["purp", "p", "ur", "le", "purpl"]))
+console.log(allConstructTable("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"]))
+console.log(allConstructTable("enterapotentpot", ["a", "p", "ent", "enter", "ot", "o", "t"]))
