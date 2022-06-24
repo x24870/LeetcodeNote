@@ -3,31 +3,29 @@ package main
 // n = len(piles)
 // time complexity: O(n * n)
 // space complexity: O(n * n)
-type Pair struct {
-	i int
-	j int
-}
-
 func stoneGame(piles []int) bool {
-	memo := make(map[Pair]int)
-	return dfs(piles, memo, Pair{0, len(piles) - 1}) > 0
+	memo := make([][]int, len(piles))
+	for i := range memo {
+		memo[i] = make([]int, len(piles))
+	}
+	return dfs(piles, memo, 0, len(piles)-1) > 0
 }
 
-func dfs(piles []int, memo map[Pair]int, pair Pair) int {
-	if v, ok := memo[pair]; ok {
-		return v
+func dfs(piles []int, memo [][]int, i, j int) int {
+	if memo[i][j] != 0 {
+		return memo[i][j]
 	}
-	if pair.i == pair.j {
-		return piles[pair.i]
+	if i == j {
+		return piles[i]
 	}
-	if pair.i > pair.j {
+	if i > j {
 		return 0
 	}
 
-	pickLeft := piles[pair.i] - dfs(piles, memo, Pair{pair.i + 1, pair.j})
-	pickRight := piles[pair.j] - dfs(piles, memo, Pair{pair.i, pair.j - 1})
-	memo[pair] = max(pickLeft, pickRight)
-	return memo[pair]
+	pickLeft := piles[i] - dfs(piles, memo, i+1, j)
+	pickRight := piles[j] - dfs(piles, memo, i, j-1)
+	memo[i][j] = max(pickLeft, pickRight)
+	return memo[i][j]
 }
 
 func max(i, j int) int {
