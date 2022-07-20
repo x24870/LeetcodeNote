@@ -1,5 +1,8 @@
 package main
 
+// n = len(nums)
+// time complexity: O(2^n)
+// space complexity: O(2^n)
 func subsets(nums []int) [][]int {
 	ans := [][]int{}
 	dfs(nums, []int{}, 0, &ans)
